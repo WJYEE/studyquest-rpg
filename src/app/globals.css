@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* RPG design tokens (docs/02_design/ui_design.md) */
+  --rpg-ink: #262019;
+  --rpg-ink-soft: #8a7a5c;
+  --rpg-parchment: #fdf6e3;
+  --rpg-parchment-dark: #f3e4bd;
+  --rpg-gold: #b8860b;
+  --rpg-diamond: #0e7c86;
 }
 
 @theme inline {
@@ -10,6 +18,13 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-rpg-ink: var(--rpg-ink);
+  --color-rpg-ink-soft: var(--rpg-ink-soft);
+  --color-rpg-parchment: var(--rpg-parchment);
+  --color-rpg-parchment-dark: var(--rpg-parchment-dark);
+  --color-rpg-gold: var(--rpg-gold);
+  --color-rpg-diamond: var(--rpg-diamond);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +38,28 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes pixel-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.animate-pixel-bob {
+  animation: pixel-bob 1.6s steps(2) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

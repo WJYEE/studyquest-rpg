@@ -1,8 +1,9 @@
 # UI Design
 
-Documents the conventions actually implemented in v1.0, written after the
-v1.0 release-prep consistency pass. This describes reality, not aspiration —
-update it when the conventions below change, rather than letting it drift.
+Documents the conventions actually implemented in the app. Originally written
+after the v1.0 release-prep consistency pass; updated for v1.1's pixel
+design system. This describes reality, not aspiration — update it when the
+conventions below change, rather than letting it drift.
 
 ## Layout
 
@@ -36,6 +37,14 @@ Sizes: `md` (`px-4 py-2 text-sm`, default) for standalone action rows;
 cards). Disabled state is always `disabled:opacity-40` — don't introduce a
 different disabled opacity for a new button.
 
+**Pixel interaction style (v1.1):** filled variants (`primary`, `secondary`,
+`success`) get a 2px ink border and an offset ink drop-shadow
+(`shadow-[3px_3px_0_0_var(--rpg-ink)]`) that collapses to 0 and nudges the
+button down-right by 3px on `:active` — a physical "pressed button" feel.
+`danger` deliberately opts out (`border-transparent shadow-none`) to keep its
+lower visual weight. Don't hand-roll this shadow/press effect outside
+`Button.tsx` / `buttonClassName()`.
+
 ## Typography & Color
 
 - Headings: `text-lg font-semibold` (page `<h1>`s), `text-sm font-medium`
@@ -49,27 +58,74 @@ different disabled opacity for a new button.
   everywhere a balance is shown (`CurrencyDisplay`, shop header, timer
   reward preview).
 
-## Cards / List Items
+## Pixel Design System (v1.1)
 
-Recurring pattern for one row in a list (subjects, shop items):
-`<li className="flex items-center justify-between gap-4 rounded border border-gray-200 px-4 py-3">`
-— content on the left, one action button on the right (`shrink-0` so long
-names don't squeeze it).
+v1.0 had one "gamey" motif (the hero pixel-border) surrounded by plain
+Tailwind UI. v1.1 extends the pixel language across the whole app, but
+**deliberately in two weights** so it doesn't turn every element heavy:
 
-## The Pixel-RPG Hero Pattern
+- **Strong** — hero/character presentation only (Home hero,
+  `PixelCharacterPlaceholder`). Thick 4px ink border plus an inset
+  parchment-dark line (`shadow-[inset_0_0_0_3px_var(--rpg-parchment-dark)]`)
+  for an SNES-dialog double-border feel, on a parchment (`--rpg-parchment`)
+  fill.
+- **Light** — everything else that used to be a plain
+  `border-gray-200` card/list row (subject list rows, shop item cards, the
+  Home feature-highlight tiles). Thinner 2px `--rpg-ink-soft` border, subtle
+  `--rpg-parchment-dark/30` tint. Same ink-on-parchment language as strong
+  panels, low enough contrast that a page full of list rows doesn't compete
+  with the hero.
 
-Introduced on the Home page (`src/app/page.tsx`) and reused by
-`PixelCharacterPlaceholder`: a thick pixel-style border
-(`border-4 border-gray-800`) around a light panel (`bg-amber-50` /
-`bg-amber-100`), `image-rendering: pixelated` on the character box itself.
-This is the one deliberately "gamey" visual motif in an otherwise plain
-Tailwind UI — keep it contained to the character/hero presentation, don't
-spread pixel-border styling to every card (that would fight with the plain
-`border-gray-200` list-item convention above).
+Both weights are the shared `src/components/PixelPanel.tsx` component
+(`weight="strong" | "light"`, `as` prop for polymorphism — e.g.
+`<PixelPanel as="li">`). **Don't hand-roll pixel border/shadow classes
+outside this component** — that's what caused the v1.0 duplication between
+`page.tsx` and `PixelCharacterPlaceholder.tsx` that this component now
+replaces.
 
-`PixelCharacterPlaceholder` itself is a static placeholder — no real sprite
-art or per-level visual variation exists yet (tracked in
-`00_project/roadmap.md`).
+### Design tokens
+
+Defined in `src/app/globals.css` as CSS custom properties and mapped into
+Tailwind's `@theme inline` (same pattern as `--color-background`), so they're
+available as utility classes (`bg-rpg-parchment`, `border-rpg-ink`, etc.):
+
+| Token | Value | Use |
+|---|---|---|
+| `--rpg-ink` | `#262019` | Primary border/text ink — the pixel-UI "black" |
+| `--rpg-ink-soft` | `#8a7a5c` | Light-weight panel borders |
+| `--rpg-parchment` | `#fdf6e3` | Strong panel fill |
+| `--rpg-parchment-dark` | `#f3e4bd` | Inset line on strong panels, tint on light panels |
+| `--rpg-gold` | `#b8860b` | Coin-adjacent accent (paired with 🪙) |
+| `--rpg-diamond` | `#0e7c86` | Diamond-adjacent accent (paired with 💎) |
+
+Semantic colors (success green, danger red, primary blue) are unchanged from
+v1.0 — only the ink/parchment/currency tokens are new.
+
+### Character sprite & animation
+
+`PixelCharacterPlaceholder` now wraps `CharacterSprite`
+(`src/features/character/components/CharacterSprite.tsx`): an inline SVG
+built from a small grid of `<rect>`s (`shape-rendering: crispEdges`,
+`image-rendering: pixelated`), not an image file — see "Asset Structure"
+below for why. It has an idle "bob" animation
+(`.animate-pixel-bob` in `globals.css`, `steps()` timing for a retro stepped
+feel) and a cosmetic level-tier accent color (`tierForLevel` — bronze/silver/
+gold, UI-only grouping, not tied to any game-balance threshold).
+
+All animation in the app must respect `prefers-reduced-motion`: `globals.css`
+has a global override that collapses animation/transition durations to
+~0 for users who request reduced motion — new animations don't each need
+their own media query.
+
+### Asset Structure
+
+`public/assets/{characters,items,audio/{bgm,sfx}}` exists with README files
+documenting the intended naming convention (tied to `Item.id` in
+`itemCatalog.ts` and to store event names) but **no real asset files yet** —
+v1.1's scope is the design system and CSS/SVG placeholders, not final
+artwork or audio production. Swapping in real files later should only touch
+`CharacterSprite.tsx` (art) and the future sound-system hook (audio), not
+call sites. Tracked as follow-up work in `00_project/roadmap.md`.
 
 ## Responsive
 

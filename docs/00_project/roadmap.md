@@ -46,8 +46,12 @@ matter for v1 polish:
   surfaced as its own stat
 - **Calendar-aligned weekly view** — the dashboard's "week" is a rolling
   7-day window ending today, not a Mon–Sun calendar week
-- **Real character sprite art** — `PixelCharacterPlaceholder` is a static
-  placeholder; no `ui_design.md` visual spec or art assets exist yet
+- **Real character sprite art** — v1.1 gave `PixelCharacterPlaceholder` a
+  documented visual spec and an SVG placeholder (`CharacterSprite.tsx`,
+  `ui_design.md`'s "Pixel Design System" section) plus an asset folder
+  structure (`public/assets/characters`), but no actual sprite art or audio
+  files exist yet — v1.1 was the design system, not final artwork/audio
+  production
 - **Shop catalog admin/editing UI** — `lib/itemCatalog.ts` is static code;
   no in-app way to add/edit items
 - **Automated test suite** — v1 was verified via manual/scripted browser

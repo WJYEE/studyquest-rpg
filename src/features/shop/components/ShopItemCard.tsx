@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Button } from "../../../components/Button";
+import { PixelPanel } from "../../../components/PixelPanel";
 import {
   evaluatePurchase,
   purchaseIneligibleMessage,
@@ -50,7 +51,10 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
   }
 
   return (
-    <li className="flex items-center justify-between gap-4 rounded border border-gray-200 px-4 py-3">
+    <PixelPanel
+      as="li"
+      className="flex items-center justify-between gap-4 px-4 py-3"
+    >
       <div>
         <p className="text-sm font-medium">{item.name}</p>
         <p className="text-xs text-gray-500">
@@ -87,6 +91,6 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
           Buy
         </Button>
       )}
-    </li>
+    </PixelPanel>
   );
 }

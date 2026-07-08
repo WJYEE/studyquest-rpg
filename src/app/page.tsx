@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { buttonClassName } from "../components/Button";
+import { PixelPanel } from "../components/PixelPanel";
 import { PixelCharacterPlaceholder } from "../features/character/components/PixelCharacterPlaceholder";
 import { getItemById } from "../lib/itemCatalog";
 import { useAppStore } from "../store/useAppStore";
@@ -21,7 +22,11 @@ export default function HomePage() {
 
   return (
     <main className="mx-auto w-full max-w-lg px-4 py-8">
-      <section className="flex flex-col items-center gap-4 rounded border-4 border-gray-800 bg-amber-50 px-6 py-8 text-center">
+      <PixelPanel
+        as="section"
+        weight="strong"
+        className="flex flex-col items-center gap-4 px-6 py-8 text-center"
+      >
         <PixelCharacterPlaceholder
           level={user.level}
           equippedItemName={equippedItem?.name}
@@ -40,16 +45,13 @@ export default function HomePage() {
             Manage Subjects
           </Link>
         </div>
-      </section>
+      </PixelPanel>
 
       <ul className="mt-6 grid grid-cols-2 gap-3 text-sm text-gray-600">
         {FEATURE_HIGHLIGHTS.map((feature) => (
-          <li
-            key={feature.label}
-            className="rounded border border-gray-200 px-3 py-2"
-          >
+          <PixelPanel as="li" key={feature.label} className="px-3 py-2">
             {feature.icon} {feature.label}
-          </li>
+          </PixelPanel>
         ))}
       </ul>
     </main>
