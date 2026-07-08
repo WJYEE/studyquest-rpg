@@ -59,25 +59,12 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
   }
 
   return (
-<<<<<<< HEAD
     <InventorySlot
       icon={ICON_BY_ITEM_ID[item.id] ?? "🎁"}
       title={item.name}
       subtitle={`${item.currency === "coin" ? "🪙" : "💎"} ${item.price} · ${item.type}`}
       error={
         error && (
-=======
-    <PixelPanel
-      as="li"
-      className="flex items-center justify-between gap-4 px-4 py-3"
-    >
-      <div>
-        <p className="text-sm font-medium">{item.name}</p>
-        <p className="text-xs text-gray-500">
-          {item.currency === "coin" ? "🪙" : "💎"} {item.price} · {item.type}
-        </p>
-        {error && (
->>>>>>> origin/main
           <p className="text-xs text-red-600" role="alert">
             {error}
           </p>
@@ -107,10 +94,6 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
           Buy
         </Button>
       )}
-<<<<<<< HEAD
     </InventorySlot>
-=======
-    </PixelPanel>
->>>>>>> origin/main
   );
 }
