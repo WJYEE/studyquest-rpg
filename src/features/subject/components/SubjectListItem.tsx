@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Button } from "../../../components/Button";
+import { WindowFrame } from "../../../components/rpg/WindowFrame";
 import { useAppStore } from "../../../store/useAppStore";
 import type { Subject } from "../../../types/subject";
 
@@ -37,7 +38,11 @@ export function SubjectListItem({ subject }: SubjectListItemProps) {
   }
 
   return (
-    <li className="flex items-center justify-between gap-4 rounded border border-gray-200 px-4 py-3">
+    <WindowFrame
+      as="li"
+      variant="slot"
+      className="flex items-center justify-between gap-4 px-4 py-3"
+    >
       <div>
         {isEditing ? (
           <input
@@ -79,6 +84,6 @@ export function SubjectListItem({ subject }: SubjectListItemProps) {
       >
         Remove
       </Button>
-    </li>
+    </WindowFrame>
   );
 }

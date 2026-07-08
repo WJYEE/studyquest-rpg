@@ -4,10 +4,15 @@ export type ButtonVariant = "primary" | "secondary" | "success" | "danger";
 export type ButtonSize = "md" | "sm";
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary: "rounded bg-blue-600 text-white",
-  secondary: "rounded bg-gray-200 text-gray-900",
-  success: "rounded bg-green-600 text-white",
-  danger: "text-red-600",
+  primary:
+    "border-rpg-ink bg-blue-600 text-white shadow-[3px_3px_0_0_var(--rpg-ink)]",
+  secondary:
+    "border-rpg-ink bg-gray-200 text-gray-900 shadow-[3px_3px_0_0_var(--rpg-ink)]",
+  success:
+    "border-rpg-ink bg-green-600 text-white shadow-[3px_3px_0_0_var(--rpg-ink)]",
+  // Deliberately no fill/shadow — keeps destructive actions visually
+  // quieter than filled buttons.
+  danger: "border-transparent text-red-600 shadow-none",
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
@@ -19,6 +24,10 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
  * Builds the shared button visual classes. Exported so non-<button>
  * elements that need to look like a button (e.g. a Next.js <Link> used as
  * a CTA) reuse the exact same styling instead of duplicating it.
+ *
+ * Pixel interaction motif: an offset ink shadow that collapses to 0 and
+ * nudges the button down-right on press, mimicking a physical button being
+ * pushed in. `danger` opts out (see VARIANT_CLASSES) to stay lightweight.
  */
 export function buttonClassName(
   variant: ButtonVariant = "primary",
@@ -26,7 +35,7 @@ export function buttonClassName(
   className?: string
 ): string {
   return [
-    "inline-flex items-center justify-center font-medium disabled:opacity-40",
+    "inline-flex items-center justify-center border-2 font-medium transition-transform duration-100 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:opacity-40",
     SIZE_CLASSES[size],
     VARIANT_CLASSES[variant],
     className,
