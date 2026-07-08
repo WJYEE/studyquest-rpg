@@ -53,7 +53,6 @@ matter for v1 polish:
   an asset folder structure (`public/assets/{characters,items,backgrounds,
   audio}`) — but no actual sprite art, scene art, item icons, or audio
   files exist yet. v1.1/v1.2 were the design system, not final art/audio
-  production
 - **Shop catalog admin/editing UI** — `lib/itemCatalog.ts` is static code;
   no in-app way to add/edit items
 - **Real BGM/SFX playback** — `useAudioStore`/`useBgm` wire the mute-state

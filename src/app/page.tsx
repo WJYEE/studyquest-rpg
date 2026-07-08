@@ -22,11 +22,11 @@ export default function HomePage() {
   const equippedItem = equippedItemId ? getItemById(equippedItemId) : undefined;
 
   return (
+<<<<<<< HEAD
     <RpgBackground scene="town">
       <main className="mx-auto w-full max-w-lg px-4 py-8">
         <WindowFrame
           as="section"
-          variant="window"
           className="flex flex-col items-center gap-4 px-6 py-8 text-center"
         >
           <CharacterSprite
@@ -59,5 +59,8 @@ export default function HomePage() {
         </ul>
       </main>
     </RpgBackground>
-  );
-}
+=======
+    <main className="mx-auto w-full max-w-lg px-4 py-8">
+      <PixelPanel
+        as="section"
+        weight="strong"
