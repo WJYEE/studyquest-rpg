@@ -1,3 +1,6 @@
+import { PixelPanel } from "../../../components/PixelPanel";
+import { CharacterSprite, tierForLevel } from "./CharacterSprite";
+
 interface PixelCharacterPlaceholderProps {
   level: number;
   /** Name of the currently equipped item, if any (requirements.md FR-P4). */
@@ -5,10 +8,10 @@ interface PixelCharacterPlaceholderProps {
 }
 
 /**
- * Static stand-in for the future pixel-art sprite — no art assets or visual
- * spec exist yet (ui_design.md is still a stub), so equipping an item shows
- * as a text label rather than a layered sprite. `level` and
- * `equippedItemName` are threaded through now so swapping in real per-level,
+ * SVG placeholder sprite in a strong PixelPanel window — no real art assets
+ * exist yet (see public/assets/characters), so `CharacterSprite` draws a
+ * simple rect-based pixel character instead of loading a file. `level` and
+ * `equippedItemName` are threaded through so swapping in real per-level,
  * per-item art later won't require touching call sites.
  */
 export function PixelCharacterPlaceholder({
@@ -17,16 +20,21 @@ export function PixelCharacterPlaceholder({
 }: PixelCharacterPlaceholderProps) {
   return (
     <div className="flex flex-col items-center gap-1">
-      <div
-        className="flex h-24 w-24 flex-col items-center justify-center gap-1 rounded border-4 border-gray-800 bg-amber-100"
-        style={{ imageRendering: "pixelated" }}
+      <PixelPanel
+        weight="strong"
+        className="flex h-24 w-24 flex-col items-center justify-center gap-1"
         aria-label={`Character, level ${level}${
           equippedItemName ? `, wearing ${equippedItemName}` : ""
         }`}
       >
-        <span className="text-4xl">🧑‍🎓</span>
-        <span className="text-xs font-semibold text-gray-600">Lv.{level}</span>
-      </div>
+        <div className="animate-pixel-bob">
+          <CharacterSprite
+            tier={tierForLevel(level)}
+            hasHat={Boolean(equippedItemName)}
+          />
+        </div>
+        <span className="text-xs font-semibold text-rpg-ink">Lv.{level}</span>
+      </PixelPanel>
       {equippedItemName && (
         <p className="text-xs text-gray-500">Wearing: {equippedItemName}</p>
       )}

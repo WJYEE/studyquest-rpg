@@ -2,6 +2,7 @@
 
 https://studyquest-rpg-three.vercel.app/
 
+
 # StudyQuest 🎮
 
 A gamification-based study management web app. Core concept: **"Study time
