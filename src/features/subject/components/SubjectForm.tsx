@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
+import { Button } from "../../../components/Button";
 import { useAppStore } from "../../../store/useAppStore";
 
 export function SubjectForm() {
@@ -28,13 +29,9 @@ export function SubjectForm() {
         aria-label="Subject name"
         className="flex-1 rounded border border-gray-300 px-3 py-2 text-sm"
       />
-      <button
-        type="submit"
-        disabled={!name.trim()}
-        className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-40"
-      >
+      <Button type="submit" disabled={!name.trim()}>
         Add Subject
-      </button>
+      </Button>
     </form>
   );
 }

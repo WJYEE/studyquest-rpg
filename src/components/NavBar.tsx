@@ -17,7 +17,7 @@ export function NavBar() {
 
   return (
     <nav className="border-b border-gray-200">
-      <ul className="mx-auto flex w-full max-w-lg gap-4 overflow-x-auto px-4 py-3 text-sm">
+      <ul className="mx-auto flex w-full max-w-lg flex-wrap gap-x-4 gap-y-2 px-4 py-3 text-sm">
         {NAV_LINKS.map((link) => {
           const isActive = pathname === link.href;
           return (

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { selectSelectableSubjects, useAppStore } from "../../../store/useAppStore";
 
 interface SubjectSelectorProps {
@@ -19,7 +21,11 @@ export function SubjectSelector({
   if (selectableSubjects.length === 0) {
     return (
       <p className="text-sm text-gray-500">
-        No subjects available — add one on the Subjects page first.
+        No subjects available —{" "}
+        <Link href="/subjects" className="text-blue-600 underline">
+          add one on the Subjects page
+        </Link>
+        .
       </p>
     );
   }

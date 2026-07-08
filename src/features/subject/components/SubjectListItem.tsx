@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { Button } from "../../../components/Button";
 import { useAppStore } from "../../../store/useAppStore";
 import type { Subject } from "../../../types/subject";
 
@@ -70,13 +71,14 @@ export function SubjectListItem({ subject }: SubjectListItemProps) {
         </p>
         {error && <p className="text-xs text-red-600">{error}</p>}
       </div>
-      <button
-        type="button"
+      <Button
+        variant="danger"
+        size="sm"
         onClick={handleRemove}
-        className="shrink-0 text-xs font-medium text-red-600"
+        className="shrink-0"
       >
         Remove
-      </button>
+      </Button>
     </li>
   );
 }

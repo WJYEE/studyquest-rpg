@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { Button } from "../../../components/Button";
 import {
   evaluatePurchase,
   purchaseIneligibleMessage,
@@ -62,17 +63,18 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
         )}
       </div>
       {isOwned ? (
-        <button
-          type="button"
+        <Button
+          variant="secondary"
+          size="sm"
           onClick={handleEquip}
           disabled={isEquipped}
-          className="shrink-0 rounded bg-gray-200 px-3 py-1.5 text-xs font-medium disabled:opacity-60"
+          className="shrink-0"
         >
           {isEquipped ? "Equipped" : "Equip"}
-        </button>
+        </Button>
       ) : (
-        <button
-          type="button"
+        <Button
+          size="sm"
           onClick={handlePurchase}
           disabled={!eligibility.eligible}
           title={
@@ -80,10 +82,10 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
               ? purchaseIneligibleMessage(eligibility.reason)
               : undefined
           }
-          className="shrink-0 rounded bg-blue-600 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40"
+          className="shrink-0"
         >
           Buy
-        </button>
+        </Button>
       )}
     </li>
   );

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { Button } from "../../../components/Button";
 import { useAppStore, type StopSessionResult } from "../../../store/useAppStore";
 
 interface TimerControlsProps {
@@ -50,49 +51,28 @@ export function TimerControls({
     <div className="flex flex-col gap-2">
       <div className="flex gap-2">
         {!activeSession && (
-          <button
-            type="button"
-            onClick={handleStart}
-            disabled={!selectedSubjectId}
-            className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-40"
-          >
+          <Button onClick={handleStart} disabled={!selectedSubjectId}>
             Start
-          </button>
+          </Button>
         )}
         {activeSession?.status === "running" && (
-          <button
-            type="button"
-            onClick={() => runAction(pauseSession)}
-            className="rounded bg-gray-200 px-4 py-2 text-sm font-medium"
-          >
+          <Button variant="secondary" onClick={() => runAction(pauseSession)}>
             Pause
-          </button>
+          </Button>
         )}
         {activeSession?.status === "paused" && (
-          <button
-            type="button"
-            onClick={() => runAction(resumeSession)}
-            className="rounded bg-gray-200 px-4 py-2 text-sm font-medium"
-          >
+          <Button variant="secondary" onClick={() => runAction(resumeSession)}>
             Resume
-          </button>
+          </Button>
         )}
         {activeSession && (
           <>
-            <button
-              type="button"
-              onClick={handleStop}
-              className="rounded bg-green-600 px-4 py-2 text-sm font-medium text-white"
-            >
+            <Button variant="success" onClick={handleStop}>
               Stop
-            </button>
-            <button
-              type="button"
-              onClick={() => runAction(cancelSession)}
-              className="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-600"
-            >
+            </Button>
+            <Button variant="secondary" onClick={() => runAction(cancelSession)}>
               Cancel
-            </button>
+            </Button>
           </>
         )}
       </div>

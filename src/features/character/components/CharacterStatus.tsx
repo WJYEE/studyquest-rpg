@@ -13,6 +13,7 @@ export function CharacterStatus() {
 
   return (
     <section className="flex flex-col items-center gap-4">
+      <h1 className="self-start text-lg font-semibold">Character</h1>
       <PixelCharacterPlaceholder
         level={user.level}
         equippedItemName={equippedItem?.name}
