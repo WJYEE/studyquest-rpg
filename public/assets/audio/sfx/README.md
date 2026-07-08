@@ -1,17 +1,16 @@
 # Sound effects (future)
 
-No files here yet — v1.1 does not implement the sound system, only the
-folder structure it will use.
+No files here yet — the sound-system architecture (`useAudioStore`,
+`useBgm`) is placeholder-only in this pass; one-shot SFX playback isn't
+wired up yet either.
 
-Planned one-shot triggers, named after the store action/event that fires
-them:
+Planned triggers, named after the store action/event that fires them:
 
 ```
 audio/sfx/
   click.mp3
-  session-start.mp3
-  session-stop.mp3
-  level-up.mp3
+  quest-start.mp3
+  quest-complete.mp3
   purchase.mp3
   equip.mp3
 ```

@@ -52,26 +52,26 @@ export function TimerControls({
       <div className="flex gap-2">
         {!activeSession && (
           <Button onClick={handleStart} disabled={!selectedSubjectId}>
-            Start
+            Begin Quest
           </Button>
         )}
         {activeSession?.status === "running" && (
           <Button variant="secondary" onClick={() => runAction(pauseSession)}>
-            Pause
+            Rest
           </Button>
         )}
         {activeSession?.status === "paused" && (
           <Button variant="secondary" onClick={() => runAction(resumeSession)}>
-            Resume
+            Continue
           </Button>
         )}
         {activeSession && (
           <>
             <Button variant="success" onClick={handleStop}>
-              Stop
+              Claim Reward
             </Button>
             <Button variant="secondary" onClick={() => runAction(cancelSession)}>
-              Cancel
+              Abandon Quest
             </Button>
           </>
         )}

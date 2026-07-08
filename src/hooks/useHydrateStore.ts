@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { useAppStore } from "../store/useAppStore";
+import { useAudioStore } from "../store/useAudioStore";
 
 /**
  * Loads persisted state from LocalStorage once, after mount. Must run on
@@ -10,5 +11,6 @@ import { useAppStore } from "../store/useAppStore";
 export function useHydrateStore(): void {
   useEffect(() => {
     useAppStore.getState().hydrate();
+    useAudioStore.getState().hydrate();
   }, []);
 }

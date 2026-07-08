@@ -1,5 +1,6 @@
 "use client";
 
+import { WindowFrame } from "../../../components/rpg/WindowFrame";
 import { useStopwatch } from "../../../hooks/useStopwatch";
 import { calculateSessionCoins } from "../../../lib/coinCalculation";
 import { elapsedMsToMinutes, formatElapsedTime } from "../../../lib/timerElapsed";
@@ -11,7 +12,11 @@ export function TimerDisplay() {
   const elapsedMs = useStopwatch();
 
   if (!activeSession) {
-    return <p className="text-sm text-gray-500">No session running.</p>;
+    return (
+      <p className="border-2 border-rpg-ink bg-rpg-parchment px-4 py-2 text-sm text-gray-600">
+        No quest underway. Choose a subject and begin.
+      </p>
+    );
   }
 
   const elapsedMinutes = elapsedMsToMinutes(elapsedMs);
@@ -19,17 +24,20 @@ export function TimerDisplay() {
   const previewCoins = calculateSessionCoins(elapsedMinutes);
 
   return (
-    <div className="flex flex-col items-center gap-1">
-      <p className="font-mono text-4xl tabular-nums">
+    <WindowFrame
+      variant="window"
+      className="flex flex-col items-center gap-1 px-6 py-4"
+    >
+      <p className="font-mono text-4xl tabular-nums text-rpg-ink">
         {formatElapsedTime(elapsedMs)}
       </p>
       <p className="text-xs uppercase tracking-wide text-gray-500">
-        {activeSession.status === "paused" ? "Paused" : "Studying"}
+        {activeSession.status === "paused" ? "Resting" : "Adventuring"}
       </p>
       <p className="text-sm text-gray-600">
-        If you stop now: +{previewXp} XP · +{previewCoins} coin
+        If you claim now: +{previewXp} XP · +{previewCoins} coin
         {previewCoins === 1 ? "" : "s"}
       </p>
-    </div>
+    </WindowFrame>
   );
 }

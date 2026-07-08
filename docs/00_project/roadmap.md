@@ -46,14 +46,19 @@ matter for v1 polish:
   surfaced as its own stat
 - **Calendar-aligned weekly view** — the dashboard's "week" is a rolling
   7-day window ending today, not a Mon–Sun calendar week
-- **Real character sprite art** — v1.1 gave `PixelCharacterPlaceholder` a
-  documented visual spec and an SVG placeholder (`CharacterSprite.tsx`,
-  `ui_design.md`'s "Pixel Design System" section) plus an asset folder
-  structure (`public/assets/characters`), but no actual sprite art or audio
-  files exist yet — v1.1 was the design system, not final artwork/audio
-  production
+- **Real character/scene/item art + audio** — v1.2 gave the app a full RPG
+  shell (window system, scene backgrounds, character animation states, HUD)
+  documented in `ui_design.md`, built entirely from CSS gradients and
+  inline SVG placeholders (`CharacterSprite.tsx`, `RpgBackground.tsx`), plus
+  an asset folder structure (`public/assets/{characters,items,backgrounds,
+  audio}`) — but no actual sprite art, scene art, item icons, or audio
+  files exist yet. v1.1/v1.2 were the design system, not final art/audio
 - **Shop catalog admin/editing UI** — `lib/itemCatalog.ts` is static code;
   no in-app way to add/edit items
+- **Real BGM/SFX playback** — `useAudioStore`/`useBgm` wire the mute-state
+  architecture but intentionally play nothing (no audio files exist yet);
+  wiring real `<audio>` playback is future work once
+  `public/assets/audio` has files
 - **Automated test suite** — v1 was verified via manual/scripted browser
   checks (Playwright) rather than a committed test suite; see
   `03_development/test_plan.md`

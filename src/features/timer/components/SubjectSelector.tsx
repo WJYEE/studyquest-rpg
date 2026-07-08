@@ -20,7 +20,7 @@ export function SubjectSelector({
 
   if (selectableSubjects.length === 0) {
     return (
-      <p className="text-sm text-gray-500">
+      <p className="border-2 border-rpg-ink bg-rpg-parchment px-3 py-2 text-sm text-gray-600">
         No subjects available —{" "}
         <Link href="/subjects" className="text-blue-600 underline">
           add one on the Subjects page
@@ -36,7 +36,7 @@ export function SubjectSelector({
       onChange={(event) => onSelect(event.target.value)}
       disabled={disabled}
       aria-label="Select subject"
-      className="rounded border border-gray-300 px-3 py-2 text-sm disabled:opacity-60"
+      className="border-2 border-rpg-ink bg-rpg-parchment px-3 py-2 text-sm disabled:opacity-60"
     >
       <option value="" disabled>
         Choose a subject

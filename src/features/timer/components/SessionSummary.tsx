@@ -1,6 +1,43 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { DialogBox } from "../../../components/rpg/DialogBox";
 import type { StopSessionResult } from "../../../store/useAppStore";
+
+/** Counts 0 -> target over durationMs via rAF; skips the animation entirely under prefers-reduced-motion. */
+function useCountUp(target: number, durationMs = 600): number {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setValue(target);
+      return;
+    }
+
+    setValue(0);
+    if (target <= 0) return;
+
+    const start = performance.now();
+    let frameId: number;
+
+    function tick(now: number) {
+      const progress = Math.min((now - start) / durationMs, 1);
+      setValue(Math.round(target * progress));
+      if (progress < 1) {
+        frameId = requestAnimationFrame(tick);
+      }
+    }
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [target, durationMs]);
+
+  return value;
+}
 
 interface SessionSummaryProps {
   result: StopSessionResult;
@@ -8,14 +45,14 @@ interface SessionSummaryProps {
 }
 
 export function SessionSummary({ result, onDismiss }: SessionSummaryProps) {
+  const xp = useCountUp(result.xpEarned);
+  const coin = useCountUp(result.coinEarned);
+
   return (
-    <div className="flex flex-col gap-2 rounded border border-green-200 bg-green-50 px-4 py-3">
-      <p className="text-sm font-medium">
-        Session complete — {result.session.duration} min studied
-      </p>
+    <DialogBox title="Quest Complete" onDismiss={onDismiss}>
+      <p className="text-sm font-medium">{result.session.duration} min studied</p>
       <p className="text-sm text-gray-700">
-        +{result.xpEarned} XP · +{result.coinEarned} coin
-        {result.coinEarned === 1 ? "" : "s"}
+        +{xp} XP · +{coin} coin{result.coinEarned === 1 ? "" : "s"}
       </p>
       {result.userLevelsGained > 0 && (
         <p className="text-sm font-medium text-green-700">
@@ -28,13 +65,6 @@ export function SessionSummary({ result, onDismiss }: SessionSummaryProps) {
           Subject leveled up +{result.subjectLevelsGained}!
         </p>
       )}
-      <button
-        type="button"
-        onClick={onDismiss}
-        className="self-start text-xs font-medium text-blue-600"
-      >
-        Done
-      </button>
-    </div>
+    </DialogBox>
   );
 }

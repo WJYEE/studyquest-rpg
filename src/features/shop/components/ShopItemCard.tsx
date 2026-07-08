@@ -3,13 +3,21 @@
 import { useState } from "react";
 
 import { Button } from "../../../components/Button";
-import { PixelPanel } from "../../../components/PixelPanel";
+import { InventorySlot } from "../../../components/rpg/InventorySlot";
 import {
   evaluatePurchase,
   purchaseIneligibleMessage,
 } from "../../../lib/shopValidation";
 import { useAppStore } from "../../../store/useAppStore";
 import type { Item } from "../../../types/item";
+
+/** Presentation-only lookup — itemCatalog.ts stays icon-agnostic content data. */
+const ICON_BY_ITEM_ID: Record<string, string> = {
+  "straw-hat": "👒",
+  "wizard-hat": "🧙",
+  headband: "🎧",
+  "golden-crown": "👑",
+};
 
 interface ShopItemCardProps {
   item: Item;
@@ -51,28 +59,24 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
   }
 
   return (
-    <PixelPanel
-      as="li"
-      className="flex items-center justify-between gap-4 px-4 py-3"
-    >
-      <div>
-        <p className="text-sm font-medium">{item.name}</p>
-        <p className="text-xs text-gray-500">
-          {item.currency === "coin" ? "🪙" : "💎"} {item.price} · {item.type}
-        </p>
-        {error && (
+    <InventorySlot
+      icon={ICON_BY_ITEM_ID[item.id] ?? "🎁"}
+      title={item.name}
+      subtitle={`${item.currency === "coin" ? "🪙" : "💎"} ${item.price} · ${item.type}`}
+      error={
+        error && (
           <p className="text-xs text-red-600" role="alert">
             {error}
           </p>
-        )}
-      </div>
+        )
+      }
+    >
       {isOwned ? (
         <Button
           variant="secondary"
           size="sm"
           onClick={handleEquip}
           disabled={isEquipped}
-          className="shrink-0"
         >
           {isEquipped ? "Equipped" : "Equip"}
         </Button>
@@ -86,11 +90,10 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
               ? purchaseIneligibleMessage(eligibility.reason)
               : undefined
           }
-          className="shrink-0"
         >
           Buy
         </Button>
       )}
-    </PixelPanel>
+    </InventorySlot>
   );
 }

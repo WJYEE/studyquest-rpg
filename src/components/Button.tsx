@@ -11,7 +11,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   success:
     "border-rpg-ink bg-green-600 text-white shadow-[3px_3px_0_0_var(--rpg-ink)]",
   // Deliberately no fill/shadow — keeps destructive actions visually
-  // quieter than filled buttons, per ui_design.md.
+  // quieter than filled buttons.
   danger: "border-transparent text-red-600 shadow-none",
 };
 

@@ -1,18 +1,18 @@
 # Character assets (future)
 
-No files here yet — v1.1 renders characters as an inline SVG placeholder
+No files here yet — characters render as an inline SVG placeholder
 (`src/features/character/components/CharacterSprite.tsx`), not image files.
 
 When real sprite art is ready, drop it in here using this naming convention
-so it lines up with the existing tier/level logic in `CharacterSprite.tsx`
-(`tierForLevel`):
+so it lines up with the existing tier/animation-state logic in
+`CharacterSprite.tsx` (`tierForLevel`, `CharacterAnimState`):
 
 ```
 characters/
   base/
-    bronze.png   # level < 10
-    silver.png   # level 10-24
-    gold.png     # level 25+
+    bronze/{idle,walk,train,levelup}.png   # level < 10
+    silver/{idle,walk,train,levelup}.png   # level 10-24
+    gold/{idle,walk,train,levelup}.png     # level 25+
   hats/
     <item-id>.png   # matches Item.id in src/lib/itemCatalog.ts
 ```
