@@ -1,4 +1,3 @@
-@AGENTS.md
 # CLAUDE.md
 
 # StudyQuest Development Guide 🎮

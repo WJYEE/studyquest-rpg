@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StudyQuest 🎮
 
-## Getting Started
+A gamification-based study management web app. Core concept: **"Study time
+becomes character growth."** Study with a stopwatch, earn XP and coins, grow
+your character, and analyze your learning patterns.
 
-First, run the development server:
+This is a v1.0 local MVP: frontend-only, no login, no backend, no database —
+all state lives in the browser's LocalStorage.
+
+---
+
+## Tech Stack
+
+- **Framework**: Next.js (App Router) + TypeScript
+- **Styling**: Tailwind CSS
+- **State**: Zustand (single store, `src/store/useAppStore.ts`)
+- **Charts**: Recharts
+- **Persistence**: LocalStorage (`src/lib/storage.ts`) — no backend, no database
+
+## Features (v1.0)
+
+- **Study timer** — start / pause / resume / stop, with a live reward preview
+- **Subject management** — create, rename, and remove subjects; subjects
+  with study history are archived rather than deleted, preserving stats
+- **Character growth** — XP and leveling, both for the overall character and
+  per-subject, with cascading multi-level-ups on long sessions
+- **Coin & diamond economy** — deterministic, rule-based rewards (see
+  `docs/01_analysis/requirements.md` §4); diamonds are a scarce, non-purchasable
+  currency earned only via level-up milestones
+- **Shop** — a static item catalog; purchase with coins or diamonds, equip a
+  cosmetic on your character
+- **Dashboard** — today's study time, a 7-day trend chart, per-subject
+  breakdown, and current study streak
+
+## Routes
+
+| Route | Purpose |
+|---|---|
+| `/` | Home — welcome + navigation |
+| `/subjects` | Manage subjects |
+| `/timer` | Run a study session |
+| `/character` | View character level, XP, currency, equipped item |
+| `/shop` | Browse and buy items |
+| `/dashboard` | Study stats and charts |
+
+## Local Setup
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). No environment
+variables or external services are required — everything runs client-side
+against LocalStorage.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Other scripts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build   # production build
+npm run start   # run the production build
+npm run lint    # ESLint
+npx tsc --noEmit  # typecheck
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/          Next.js routes (one folder per route above)
+  components/   Shared, app-wide UI (NavBar, AppHydrator)
+  features/     Domain features: subject, timer, character, shop, dashboard
+  hooks/        Custom React hooks
+  lib/          Pure business logic, utilities, LocalStorage wrapper
+  store/        The single Zustand store
+  types/        Shared TypeScript domain types
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Design and process docs live under `docs/`:
 
-## Deploy on Vercel
+- `docs/00_project/` — overview, roadmap, changelog
+- `docs/01_analysis/` — requirements, user flow
+- `docs/02_design/` — architecture, data model, folder structure, coding standard
+- `docs/03_development/` — development rules, git rules, test plan
+- `docs/04_release/` — deployment, retrospective
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Roadmap
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+v2+ ideas (auth, backend, ranking, and more) are tracked in
+`docs/00_project/roadmap.md`.
