@@ -2,7 +2,6 @@
 
 https://studyquest-rpg-three.vercel.app/
 
-
 # StudyQuest 🎮
 
 A gamification-based study management web app. Core concept: **"Study time
@@ -39,14 +38,14 @@ all state lives in the browser's LocalStorage.
 
 ## Routes
 
-| Route | Purpose |
-|---|---|
-| `/` | Home — welcome + navigation |
-| `/subjects` | Manage subjects |
-| `/timer` | Run a study session |
+| Route        | Purpose                                           |
+| ------------ | ------------------------------------------------- |
+| `/`          | Home — welcome + navigation                       |
+| `/subjects`  | Manage subjects                                   |
+| `/timer`     | Run a study session                               |
 | `/character` | View character level, XP, currency, equipped item |
-| `/shop` | Browse and buy items |
-| `/dashboard` | Study stats and charts |
+| `/shop`      | Browse and buy items                              |
+| `/dashboard` | Study stats and charts                            |
 
 ## Local Setup
 
@@ -95,3 +94,7 @@ Design and process docs live under `docs/`:
 
 v2+ ideas (auth, backend, ranking, and more) are tracked in
 `docs/00_project/roadmap.md`.
+
+## v1.1.0 - RPG Experience Update
+
+- Completed final QA validation for v1.1 release (lint, type check, build)
