@@ -10,8 +10,8 @@ export function TodayStat() {
 
   return (
     <WindowFrame variant="slot" className="px-4 py-3">
-      <p className="text-xs text-gray-500">Today</p>
-      <p className="text-lg font-semibold">{minutes} min</p>
+      <p className="text-xs text-rpg-ink-soft">Today</p>
+      <p className="text-lg font-semibold text-rpg-ink">⏱ {minutes} min</p>
     </WindowFrame>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Button } from "../../../components/Button";
+import { inputClassName } from "../../../components/Input";
 import { WindowFrame } from "../../../components/rpg/WindowFrame";
 import { useAppStore } from "../../../store/useAppStore";
 import type { Subject } from "../../../types/subject";
@@ -60,21 +61,21 @@ export function SubjectListItem({ subject }: SubjectListItemProps) {
               }
             }}
             aria-label="Subject name"
-            className="rounded border border-gray-300 px-2 py-1 text-sm"
+            className={inputClassName()}
           />
         ) : (
           <button
             type="button"
             onClick={() => setIsEditing(true)}
-            className="text-left text-sm font-medium"
+            className="text-left text-sm font-medium text-rpg-ink underline decoration-rpg-ink-soft decoration-dotted underline-offset-2 hover:decoration-rpg-ink"
           >
             {subject.name}
           </button>
         )}
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-rpg-ink-soft">
           Level {subject.level} · {subject.xp} XP · {subject.totalMinutes} min studied
         </p>
-        {error && <p className="text-xs text-red-600">{error}</p>}
+        {error && <p className="text-xs text-rpg-danger">{error}</p>}
       </div>
       <Button
         variant="danger"

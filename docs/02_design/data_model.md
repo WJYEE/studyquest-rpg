@@ -56,6 +56,11 @@ affordable from normal session rewards; diamond-priced items are rare, premium
 cosmetics only obtainable via character level-up milestones (see
 `01_analysis/requirements.md` §4).
 
+`type` is an `ItemSlot` (`"hat" | "outfit" | "accessory"`) — the cosmetic
+category an item belongs to, which doubles as the equip slot it occupies (see
+Inventory below). Introduced as a closed union in v1.2; previously a loose
+`string` before the catalog had more than one category.
+
 `Item`s themselves are a static catalog (`lib/itemCatalog.ts`), not persisted
 per-user data — the catalog has no admin UI and is edited directly in code.
 
@@ -63,13 +68,15 @@ per-user data — the catalog has no admin UI and is edited directly in code.
 
 ```json
 {
-"ownedItemIds": ["wizard-hat"],
-"equippedItemId": "wizard-hat"
+"ownedItemIds": ["wizard-hat", "traveler-cloak"],
+"equippedItemIds": { "hat": "wizard-hat", "outfit": "traveler-cloak" }
 }
 ```
 
-The per-user part of the shop: which catalog items are owned, and which one
-(if any) is currently equipped. v1 supports a single equipped item overall,
-not per-slot equipping (e.g. one hat + one outfit at once) — FR-P4 only asks
-for "an item," and the character placeholder has no layered sprite system to
-render multiple simultaneously equipped pieces yet.
+The per-user part of the shop: which catalog items are owned, and which item
+(if any) is equipped **per slot**. `equippedItemIds` is keyed by `ItemSlot`,
+so up to one hat, one outfit, and one accessory can be equipped
+simultaneously (v1.2) — a slot with nothing equipped simply has no key. This
+replaced v1.1's single global `equippedItemId: string | null`, which could
+only track one equipped item overall. `CharacterSprite` renders each slot's
+equip state independently (`hasHat`/`hasOutfit`/`hasAccessory`).

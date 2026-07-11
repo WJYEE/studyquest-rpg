@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Button } from "../../../components/Button";
+import { WindowFrame } from "../../../components/rpg/WindowFrame";
 import { useAppStore, type StopSessionResult } from "../../../store/useAppStore";
 
 interface TimerControlsProps {
@@ -48,8 +49,8 @@ export function TimerControls({
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
+    <WindowFrame variant="slot" className="flex flex-col gap-2 px-3 py-3">
+      <div className="flex flex-wrap gap-2">
         {!activeSession && (
           <Button onClick={handleStart} disabled={!selectedSubjectId}>
             Begin Quest
@@ -77,10 +78,10 @@ export function TimerControls({
         )}
       </div>
       {error && (
-        <p className="text-xs text-red-600" role="alert">
+        <p className="text-xs text-rpg-danger" role="alert">
           {error}
         </p>
       )}
-    </div>
+    </WindowFrame>
   );
 }

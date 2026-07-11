@@ -13,9 +13,9 @@ export function TimerDisplay() {
 
   if (!activeSession) {
     return (
-      <p className="border-2 border-rpg-ink bg-rpg-parchment px-4 py-2 text-sm text-gray-600">
+      <WindowFrame variant="window" className="px-4 py-2 text-sm text-rpg-ink-soft">
         No quest underway. Choose a subject and begin.
-      </p>
+      </WindowFrame>
     );
   }
 
@@ -31,10 +31,10 @@ export function TimerDisplay() {
       <p className="font-mono text-4xl tabular-nums text-rpg-ink">
         {formatElapsedTime(elapsedMs)}
       </p>
-      <p className="text-xs uppercase tracking-wide text-gray-500">
+      <p className="font-pixel text-[10px] uppercase tracking-wide text-rpg-ink-soft">
         {activeSession.status === "paused" ? "Resting" : "Adventuring"}
       </p>
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-rpg-ink-soft">
         If you claim now: +{previewXp} XP · +{previewCoins} coin
         {previewCoins === 1 ? "" : "s"}
       </p>

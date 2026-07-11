@@ -6,7 +6,6 @@ import { buttonClassName } from "../components/Button";
 import { RpgBackground } from "../components/rpg/RpgBackground";
 import { WindowFrame } from "../components/rpg/WindowFrame";
 import { CharacterSprite, tierForLevel } from "../features/character/components/CharacterSprite";
-import { getItemById } from "../lib/itemCatalog";
 import { useAppStore } from "../store/useAppStore";
 
 const FEATURE_HIGHLIGHTS = [
@@ -18,8 +17,8 @@ const FEATURE_HIGHLIGHTS = [
 
 export default function HomePage() {
   const user = useAppStore((state) => state.user);
-  const equippedItemId = useAppStore((state) => state.equippedItemId);
-  const equippedItem = equippedItemId ? getItemById(equippedItemId) : undefined;
+  const equippedItemIds = useAppStore((state) => state.equippedItemIds);
+  const appearance = useAppStore((state) => state.appearance);
 
   return (
     <RpgBackground scene="town">
@@ -29,14 +28,20 @@ export default function HomePage() {
           variant="window"
           className="flex flex-col items-center gap-4 px-6 py-8 text-center"
         >
-          <CharacterSprite
-            tier={tierForLevel(user.level)}
-            hasHat={Boolean(equippedItem)}
-          />
-          <p className="text-xs font-semibold text-rpg-ink">Lv.{user.level}</p>
+          <div className="relative flex flex-col items-center">
+            <CharacterSprite
+              tier={tierForLevel(user.level)}
+              appearance={appearance}
+              hasHat={Boolean(equippedItemIds.hat)}
+              hasOutfit={Boolean(equippedItemIds.outfit)}
+              hasAccessory={Boolean(equippedItemIds.accessory)}
+            />
+            <div className="-mt-2 h-2 w-10 rounded-full bg-rpg-ink opacity-20" aria-hidden="true" />
+          </div>
+          <p className="font-pixel text-[10px] tracking-wide text-rpg-ink">Lv.{user.level}</p>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">StudyQuest</h1>
-            <p className="mt-1 text-sm text-gray-600">
+            <h1 className="font-pixel text-xl tracking-wide text-rpg-ink">StudyQuest</h1>
+            <p className="mt-2 text-sm text-rpg-ink-soft">
               Study time becomes character growth.
             </p>
           </div>
@@ -50,7 +55,7 @@ export default function HomePage() {
           </div>
         </WindowFrame>
 
-        <ul className="mt-6 grid grid-cols-2 gap-3 text-sm text-gray-600">
+        <ul className="mt-6 grid grid-cols-2 gap-3 text-sm text-rpg-ink-soft">
           {FEATURE_HIGHLIGHTS.map((feature) => (
             <WindowFrame as="li" variant="slot" key={feature.label} className="px-3 py-2">
               {feature.icon} {feature.label}

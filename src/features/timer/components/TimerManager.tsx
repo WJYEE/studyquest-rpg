@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { PageTitle } from "../../../components/rpg/PageTitle";
 import { RpgBackground, type RpgScene } from "../../../components/rpg/RpgBackground";
 import { useAppStore, type StopSessionResult } from "../../../store/useAppStore";
 import {
@@ -25,7 +26,8 @@ import { TimerDisplay } from "./TimerDisplay";
 export function TimerManager() {
   const activeSession = useAppStore((state) => state.activeSession);
   const user = useAppStore((state) => state.user);
-  const equippedItemId = useAppStore((state) => state.equippedItemId);
+  const equippedItemIds = useAppStore((state) => state.equippedItemIds);
+  const appearance = useAppStore((state) => state.appearance);
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(
     null
   );
@@ -51,15 +53,19 @@ export function TimerManager() {
     <RpgBackground scene={scene}>
       <main className="mx-auto w-full max-w-lg px-4 py-8">
         <section className="flex flex-col items-center gap-6">
-          <h1 className="self-start border-2 border-rpg-ink bg-rpg-parchment px-3 py-1 text-lg font-semibold text-rpg-ink">
-            Study Quest
-          </h1>
+          <PageTitle>Study Quest</PageTitle>
 
-          <CharacterSprite
-            tier={tierForLevel(user.level)}
-            hasHat={Boolean(equippedItemId)}
-            animState={animState}
-          />
+          <div className="relative flex flex-col items-center">
+            <CharacterSprite
+              tier={tierForLevel(user.level)}
+              appearance={appearance}
+              hasHat={Boolean(equippedItemIds.hat)}
+              hasOutfit={Boolean(equippedItemIds.outfit)}
+              hasAccessory={Boolean(equippedItemIds.accessory)}
+              animState={animState}
+            />
+            <div className="-mt-2 h-2 w-10 rounded-full bg-rpg-ink opacity-20" aria-hidden="true" />
+          </div>
 
           {lastResult ? (
             <SessionSummary

@@ -5,14 +5,14 @@ export type ButtonSize = "md" | "sm";
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "border-rpg-ink bg-blue-600 text-white shadow-[3px_3px_0_0_var(--rpg-ink)]",
+    "border-rpg-ink bg-rpg-gold text-rpg-ink shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),3px_3px_0_0_var(--rpg-ink)]",
   secondary:
-    "border-rpg-ink bg-gray-200 text-gray-900 shadow-[3px_3px_0_0_var(--rpg-ink)]",
+    "border-rpg-ink bg-rpg-parchment-dark text-rpg-ink shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),3px_3px_0_0_var(--rpg-ink)]",
   success:
-    "border-rpg-ink bg-green-600 text-white shadow-[3px_3px_0_0_var(--rpg-ink)]",
+    "border-rpg-ink bg-rpg-success text-rpg-parchment shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),3px_3px_0_0_var(--rpg-ink)]",
   // Deliberately no fill/shadow — keeps destructive actions visually
   // quieter than filled buttons.
-  danger: "border-transparent text-red-600 shadow-none",
+  danger: "border-transparent text-rpg-danger shadow-none",
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
@@ -35,7 +35,7 @@ export function buttonClassName(
   className?: string
 ): string {
   return [
-    "inline-flex items-center justify-center border-2 font-medium transition-transform duration-100 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:opacity-40",
+    "inline-flex items-center justify-center border-2 font-pixel tracking-wide transition-transform duration-100 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:opacity-40",
     SIZE_CLASSES[size],
     VARIANT_CLASSES[variant],
     className,

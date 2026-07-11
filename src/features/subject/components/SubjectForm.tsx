@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from "react";
 
 import { Button } from "../../../components/Button";
+import { inputClassName } from "../../../components/Input";
+import { WindowFrame } from "../../../components/rpg/WindowFrame";
 import { useAppStore } from "../../../store/useAppStore";
 
 export function SubjectForm() {
@@ -20,18 +22,18 @@ export function SubjectForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <WindowFrame as="form" variant="slot" onSubmit={handleSubmit} className="flex gap-2 p-2">
       <input
         type="text"
         value={name}
         onChange={(event) => setName(event.target.value)}
         placeholder="Subject name"
         aria-label="Subject name"
-        className="flex-1 rounded border border-gray-300 px-3 py-2 text-sm"
+        className={inputClassName("flex-1")}
       />
       <Button type="submit" disabled={!name.trim()}>
         Add Subject
       </Button>
-    </form>
+    </WindowFrame>
   );
 }

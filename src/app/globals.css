@@ -11,6 +11,16 @@
   --rpg-parchment-dark: #f3e4bd;
   --rpg-gold: #b8860b;
   --rpg-diamond: #0e7c86;
+
+  /* Cozy-pixel-RPG art-direction pass: replaces stray Tailwind grays/blues/
+     reds/greens across the app so every color on screen is an intentional
+     game-palette choice. */
+  --rpg-xp: #7cb342;
+  --rpg-wood: #8a5a34;
+  --rpg-forest: #3f6b3a;
+  --rpg-sky: #6fa8c9;
+  --rpg-danger: #a83232;
+  --rpg-success: #4c7a3d;
 }
 
 @theme inline {
@@ -18,6 +28,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-pixel: var(--font-pixel);
 
   --color-rpg-ink: var(--rpg-ink);
   --color-rpg-ink-soft: var(--rpg-ink-soft);
@@ -25,6 +36,12 @@
   --color-rpg-parchment-dark: var(--rpg-parchment-dark);
   --color-rpg-gold: var(--rpg-gold);
   --color-rpg-diamond: var(--rpg-diamond);
+  --color-rpg-xp: var(--rpg-xp);
+  --color-rpg-wood: var(--rpg-wood);
+  --color-rpg-forest: var(--rpg-forest);
+  --color-rpg-sky: var(--rpg-sky);
+  --color-rpg-danger: var(--rpg-danger);
+  --color-rpg-success: var(--rpg-success);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,6 +55,30 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* --- Pixel-world texture ------------------------------------------------ */
+
+/**
+ * Low-opacity dither/checker overlay for RpgBackground scenes — a CSS-only
+ * stand-in for a tiled pixel-art ground texture (no image assets yet, see
+ * public/assets/backgrounds README). Pair with a positioned/inset element.
+ */
+.pixel-texture {
+  background-image: repeating-linear-gradient(
+      45deg,
+      rgba(38, 32, 25, 0.05) 0px,
+      rgba(38, 32, 25, 0.05) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(38, 32, 25, 0.05) 0px,
+      rgba(38, 32, 25, 0.05) 1px,
+      transparent 1px,
+      transparent 4px
+    );
 }
 
 /* --- Character sprite animation states ------------------------------- */
@@ -128,6 +169,18 @@ body {
 }
 .pixel-spark {
   animation: pixel-spark 0.9s ease-out infinite;
+}
+
+@keyframes pixel-drift {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(14px);
+  }
+}
+.animate-pixel-drift {
+  animation: pixel-drift 5s steps(4) infinite alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {

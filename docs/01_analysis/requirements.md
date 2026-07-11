@@ -88,6 +88,8 @@ Per `CLAUDE.md` restrictions:
 | FR-P2 | User can purchase an item if the matching-currency balance is sufficient. | Balance for `Item.currency` decreases by item price; item added to inventory. |
 | FR-P3 | Purchase is blocked if the matching-currency balance is insufficient. | No state change; user sees an insufficient-funds message. |
 | FR-P4 | User can equip a purchased item on the character. | Character view reflects equipped item. |
+| FR-P5 | User can unequip an equipped item. | Slot returns to empty; character view no longer shows that item. (v1.2) |
+| FR-P6 | User can equip one item per slot (`hat`, `outfit`, `accessory`) simultaneously. | Equipping a new item in a slot replaces only that slot's item; other slots' equipped items are unaffected. (v1.2) |
 
 ### 3.6 Dashboard — `app/dashboard`
 
