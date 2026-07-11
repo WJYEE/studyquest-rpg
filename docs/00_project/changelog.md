@@ -5,6 +5,32 @@ Dates reflect when work was completed in this repo, not necessarily git
 commit dates (see `03_development/git_rule.md` for commit conventions going
 forward).
 
+## [1.2.0] - 2026-07-09
+
+Shop, Inventory & Character Customization — extends v1.1's single-slot
+equip system into full per-slot character customization
+(`01_analysis/requirements.md` FR-P5/FR-P6).
+
+### Added
+
+- `types/item.ts` — `ItemSlot` union (`"hat" | "outfit" | "accessory"`),
+  replacing `Item.type: string`
+- `Inventory.equippedItemIds: Partial<Record<ItemSlot, string>>`, replacing
+  the single global `equippedItemId: string | null` — one equipped item per
+  slot instead of one overall
+- `unequipItem(slot)` store action (`useAppStore.ts`)
+- 6 new catalog items across the `outfit` and `accessory` slots
+  (`lib/itemCatalog.ts`)
+- `CharacterSprite` renders `hasHat`/`hasOutfit`/`hasAccessory` independently
+  (outfit recolors the body rect, accessory adds a chest accent), instead of
+  a single `hasHat` boolean
+- Shop item cards show "Unequip" instead of a disabled "Equipped" state
+
+### Changed
+
+- All `equippedItemId` call sites (`RpgHud`, `TimerManager`, `CharacterStatus`,
+  home page) read from `equippedItemIds` per-slot instead
+
 ## [1.0.0] - 2026-07-08
 
 v1.0 Local MVP — full scope from `01_analysis/requirements.md` §2.1 is

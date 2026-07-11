@@ -6,12 +6,15 @@ import { getItemById } from "../lib/itemCatalog";
 import { applyXpGain } from "../lib/levelCalculation";
 import { calculateLevelUpBonus } from "../lib/levelUpRewards";
 import { evaluatePurchase, purchaseIneligibleMessage } from "../lib/shopValidation";
+import { DEFAULT_APPEARANCE } from "../lib/characterAppearance";
 import {
   DEFAULT_USER,
+  loadAppearance,
   loadInventory,
   loadSessions,
   loadSubjects,
   loadUser,
+  saveAppearance,
   saveInventory,
   saveSessions,
   saveSubjects,
@@ -19,6 +22,8 @@ import {
 } from "../lib/storage";
 import { calculateElapsedMs, elapsedMsToMinutes } from "../lib/timerElapsed";
 import { calculateSessionXp } from "../lib/xpCalculation";
+import type { CharacterAppearance } from "../types/appearance";
+import type { ItemSlot } from "../types/item";
 import type { StudySession } from "../types/session";
 import type { Subject } from "../types/subject";
 import type { User } from "../types/user";
@@ -55,7 +60,8 @@ interface AppState {
   sessions: StudySession[];
   activeSession: ActiveSession | null;
   ownedItemIds: string[];
-  equippedItemId: string | null;
+  equippedItemIds: Partial<Record<ItemSlot, string>>;
+  appearance: CharacterAppearance;
 }
 
 interface AppActions {
@@ -72,6 +78,8 @@ interface AppActions {
   stopSession: () => StopSessionResult;
   purchaseItem: (itemId: string) => void;
   equipItem: (itemId: string) => void;
+  unequipItem: (slot: ItemSlot) => void;
+  updateAppearance: (patch: Partial<CharacterAppearance>) => void;
 }
 
 /** Subjects available for starting a new session (requirements.md FR-S5). */
@@ -88,7 +96,8 @@ export const useAppStore = create<AppState & AppActions>()((set, get) => ({
   sessions: [],
   activeSession: null,
   ownedItemIds: [],
-  equippedItemId: null,
+  equippedItemIds: {},
+  appearance: DEFAULT_APPEARANCE,
 
   hydrate: () => {
     const inventory = loadInventory();
@@ -97,7 +106,8 @@ export const useAppStore = create<AppState & AppActions>()((set, get) => ({
       subjects: loadSubjects(),
       sessions: loadSessions(),
       ownedItemIds: inventory.ownedItemIds,
-      equippedItemId: inventory.equippedItemId,
+      equippedItemIds: inventory.equippedItemIds,
+      appearance: loadAppearance(),
     });
   },
 
@@ -284,7 +294,7 @@ export const useAppStore = create<AppState & AppActions>()((set, get) => ({
   },
 
   purchaseItem: (itemId) => {
-    const { user, ownedItemIds, equippedItemId } = get();
+    const { user, ownedItemIds, equippedItemIds } = get();
     const item = getItemById(itemId);
 
     const eligibility = evaluatePurchase(
@@ -308,17 +318,38 @@ export const useAppStore = create<AppState & AppActions>()((set, get) => ({
 
     set({ user: nextUser, ownedItemIds: nextOwnedItemIds });
     saveUser(nextUser);
-    saveInventory({ ownedItemIds: nextOwnedItemIds, equippedItemId });
+    saveInventory({ ownedItemIds: nextOwnedItemIds, equippedItemIds });
   },
 
   equipItem: (itemId) => {
-    const { ownedItemIds } = get();
+    const { ownedItemIds, equippedItemIds } = get();
+    const item = getItemById(itemId);
 
+    if (!item) {
+      throw new Error("This item no longer exists.");
+    }
     if (!ownedItemIds.includes(itemId)) {
       throw new Error("You can only equip items you own.");
     }
 
-    set({ equippedItemId: itemId });
-    saveInventory({ ownedItemIds, equippedItemId: itemId });
+    const nextEquippedItemIds = { ...equippedItemIds, [item.type]: itemId };
+    set({ equippedItemIds: nextEquippedItemIds });
+    saveInventory({ ownedItemIds, equippedItemIds: nextEquippedItemIds });
+  },
+
+  unequipItem: (slot) => {
+    const { ownedItemIds, equippedItemIds } = get();
+
+    const nextEquippedItemIds = { ...equippedItemIds };
+    delete nextEquippedItemIds[slot];
+
+    set({ equippedItemIds: nextEquippedItemIds });
+    saveInventory({ ownedItemIds, equippedItemIds: nextEquippedItemIds });
+  },
+
+  updateAppearance: (patch) => {
+    const nextAppearance = { ...get().appearance, ...patch };
+    set({ appearance: nextAppearance });
+    saveAppearance(nextAppearance);
   },
 }));

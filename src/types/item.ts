@@ -1,12 +1,14 @@
 export type ItemCurrency = "coin" | "diamond";
 
+/** Equip slot a cosmetic item occupies — also doubles as its shop category. */
+export type ItemSlot = "hat" | "outfit" | "accessory";
+
 export interface Item {
   id: string;
   name: string;
   price: number;
   currency: ItemCurrency;
-  /** Cosmetic category, e.g. "hat" — catalog not finalized yet. */
-  type: string;
+  type: ItemSlot;
 }
 
 /**
@@ -16,5 +18,6 @@ export interface Item {
  */
 export interface Inventory {
   ownedItemIds: string[];
-  equippedItemId: string | null;
+  /** At most one equipped item per slot; a slot with nothing equipped is simply absent. */
+  equippedItemIds: Partial<Record<ItemSlot, string>>;
 }

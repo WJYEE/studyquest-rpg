@@ -1,3 +1,5 @@
+import { DEFAULT_APPEARANCE } from "./characterAppearance";
+import type { CharacterAppearance } from "../types/appearance";
 import type { Inventory } from "../types/item";
 import type { StudySession } from "../types/session";
 import type { Subject } from "../types/subject";
@@ -9,11 +11,13 @@ const STORAGE_KEYS = {
   subjects: "studyquest:subjects",
   sessions: "studyquest:sessions",
   inventory: "studyquest:inventory",
+  /** Base character look — kept separate from `inventory`, which is shop ownership state, not appearance. */
+  appearance: "studyquest:appearance",
 } as const;
 
 const DEFAULT_INVENTORY: Inventory = {
   ownedItemIds: [],
-  equippedItemId: null,
+  equippedItemIds: {},
 };
 
 /** v1 has no accounts, so there is exactly one local profile with a fixed id. */
@@ -87,4 +91,12 @@ export function loadInventory(): Inventory {
 
 export function saveInventory(inventory: Inventory): void {
   writeToStorage(STORAGE_KEYS.inventory, inventory);
+}
+
+export function loadAppearance(): CharacterAppearance {
+  return readFromStorage(STORAGE_KEYS.appearance, DEFAULT_APPEARANCE);
+}
+
+export function saveAppearance(appearance: CharacterAppearance): void {
+  writeToStorage(STORAGE_KEYS.appearance, appearance);
 }

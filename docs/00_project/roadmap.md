@@ -15,6 +15,20 @@ Full scope from `01_analysis/requirements.md` §2.1. See
 - [x] Consistent navigation shell across all routes
 - [x] LocalStorage persistence, SSR-safe hydration
 
+## v1.2 — Shop, Inventory & Character Customization (Complete)
+
+Extends v1.1's single-slot shop/equip system into full per-slot character
+customization, per `01_analysis/requirements.md` FR-P5/FR-P6.
+
+- [x] `Item.type` promoted from a loose `string` to a closed `ItemSlot` union
+  (`"hat" | "outfit" | "accessory"`)
+- [x] Catalog expanded with `outfit` and `accessory` items (`lib/itemCatalog.ts`)
+- [x] Multi-slot equipping — one item per slot simultaneously
+  (`Inventory.equippedItemIds`, keyed by slot)
+- [x] Unequip action (`unequipItem`)
+- [x] `CharacterSprite` layers hat/outfit/accessory independently instead of
+  a single `hasHat` boolean
+
 ## v2 — Accounts & Backend
 
 Per `CLAUDE.md`'s stated tech direction:
@@ -33,11 +47,6 @@ Per `CLAUDE.md`'s stated tech direction:
 Worth reconsidering once the backend lands, or sooner if they turn out to
 matter for v1 polish:
 
-- **Unequip action** — v1 only supports equipping an item, not removing one
-  (`features/shop`)
-- **Multi-slot equipping** — v1 supports exactly one equipped item overall,
-  not per-slot (hat + outfit simultaneously); would need a real sprite
-  layering system first
 - **Streak-based reward bonuses** — the dashboard shows a streak (v1), but
   streaks don't currently affect XP/coin rewards; `requirements.md` §4.5
   explicitly deferred this to avoid v1 complexity
@@ -53,6 +62,7 @@ matter for v1 polish:
   an asset folder structure (`public/assets/{characters,items,backgrounds,
   audio}`) — but no actual sprite art, scene art, item icons, or audio
   files exist yet. v1.1/v1.2 were the design system, not final art/audio
+  
 - **Shop catalog admin/editing UI** — `lib/itemCatalog.ts` is static code;
   no in-app way to add/edit items
 - **Real BGM/SFX playback** — `useAudioStore`/`useBgm` wire the mute-state

@@ -11,15 +11,15 @@ export function LevelProgress({ level, xp }: LevelProgressProps) {
 
   return (
     <div className="w-full max-w-xs">
-      <div className="flex items-center justify-between text-sm font-medium">
+      <div className="flex items-center justify-between text-sm font-medium text-rpg-ink">
         <span>Level {level}</span>
-        <span className="text-gray-500">
+        <span className="text-rpg-ink-soft">
           {xp} / {required} XP
         </span>
       </div>
-      <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-gray-200">
+      <div className="mt-1 h-3 w-full overflow-hidden border-2 border-rpg-ink bg-rpg-parchment-dark">
         <div
-          className="h-full bg-blue-600"
+          className="h-full bg-rpg-xp shadow-[inset_0_1px_0_0_rgba(255,255,255,0.4)] transition-[width] duration-500"
           style={{ width: `${ratio * 100}%` }}
         />
       </div>

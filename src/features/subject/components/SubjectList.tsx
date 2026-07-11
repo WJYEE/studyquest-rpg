@@ -9,7 +9,7 @@ export function SubjectList() {
 
   if (selectableSubjects.length === 0) {
     return (
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-rpg-ink-soft">
         No subjects yet — add one above to start studying.
       </p>
     );
