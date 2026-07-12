@@ -6,7 +6,7 @@ import { CharacterCustomizer } from "../../../features/character/components/Char
 
 export default function CharacterCustomizePage() {
   return (
-    <RpgBackground scene="room">
+    <RpgBackground scene="quiet">
       <main className="mx-auto flex w-full max-w-lg flex-col gap-4 px-4 py-8">
         <Link href="/character" className={buttonClassName("secondary", "sm")}>
           ← Back to Character

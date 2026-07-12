@@ -13,7 +13,7 @@ import {
 } from "../../../lib/characterAppearance";
 import { useAppStore } from "../../../store/useAppStore";
 import type { CharacterAppearance } from "../../../types/appearance";
-import { CharacterSprite, tierForLevel } from "./CharacterSprite";
+import { DollSprite } from "./DollSprite";
 
 interface SwatchRowProps<T extends string> {
   label: string;
@@ -101,7 +101,6 @@ function OptionRow<T extends string>({ label, options, selected, onSelect }: Opt
 export function CharacterCustomizer() {
   const user = useAppStore((state) => state.user);
   const appearance = useAppStore((state) => state.appearance);
-  const equippedItemIds = useAppStore((state) => state.equippedItemIds);
   const updateAppearance = useAppStore((state) => state.updateAppearance);
 
   function set<K extends keyof CharacterAppearance>(key: K, value: CharacterAppearance[K]) {
@@ -115,53 +114,58 @@ export function CharacterCustomizer() {
     >
       <h1 className="font-pixel text-sm tracking-wide text-rpg-ink">Customize Appearance</h1>
 
-      <CharacterSprite
-        tier={tierForLevel(user.level)}
-        appearance={appearance}
-        hasHat={Boolean(equippedItemIds.hat)}
-        hasOutfit={Boolean(equippedItemIds.outfit)}
-        hasAccessory={Boolean(equippedItemIds.accessory)}
-      />
+      <DollSprite appearance={appearance} height={210} fallbackLevel={user.level} />
 
-      <div className="flex w-full flex-col gap-3">
-        <SwatchRow
-          label="Skin Tone"
-          options={SKIN_TONE_OPTIONS}
-          swatches={SKIN_TONE_SWATCHES}
-          selected={appearance.skinTone}
-          onSelect={(value) => set("skinTone", value)}
-        />
-        <OptionRow
-          label="Hair Style"
-          options={HAIR_STYLE_OPTIONS}
-          selected={appearance.hairStyle}
-          onSelect={(value) => set("hairStyle", value)}
-        />
-        <SwatchRow
-          label="Hair Color"
-          options={HAIR_COLOR_OPTIONS}
-          swatches={HAIR_COLOR_SWATCHES}
-          selected={appearance.hairColor}
-          onSelect={(value) => set("hairColor", value)}
-        />
-        <OptionRow
-          label="Eye Style"
-          options={EYE_STYLE_OPTIONS}
-          selected={appearance.eyeStyle}
-          onSelect={(value) => set("eyeStyle", value)}
-        />
-        <OptionRow
-          label="Nose Style"
-          options={NOSE_STYLE_OPTIONS}
-          selected={appearance.noseStyle}
-          onSelect={(value) => set("noseStyle", value)}
-        />
-        <OptionRow
-          label="Mouth Style"
-          options={MOUTH_STYLE_OPTIONS}
-          selected={appearance.mouthStyle}
-          onSelect={(value) => set("mouthStyle", value)}
-        />
+      <div className="flex w-full flex-col gap-4">
+        <div className="flex flex-col gap-3">
+          <p className="text-[11px] font-semibold tracking-wide text-rpg-ink-soft uppercase">
+            Appearance
+          </p>
+          <SwatchRow
+            label="Skin Tone"
+            options={SKIN_TONE_OPTIONS}
+            swatches={SKIN_TONE_SWATCHES}
+            selected={appearance.skinTone}
+            onSelect={(value) => set("skinTone", value)}
+          />
+          <OptionRow
+            label="Hair Style"
+            options={HAIR_STYLE_OPTIONS}
+            selected={appearance.hairStyle}
+            onSelect={(value) => set("hairStyle", value)}
+          />
+          <SwatchRow
+            label="Hair Color"
+            options={HAIR_COLOR_OPTIONS}
+            swatches={HAIR_COLOR_SWATCHES}
+            selected={appearance.hairColor}
+            onSelect={(value) => set("hairColor", value)}
+          />
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-[11px] font-semibold tracking-wide text-rpg-ink-soft uppercase">
+            Face
+          </p>
+          <OptionRow
+            label="Eye Style"
+            options={EYE_STYLE_OPTIONS}
+            selected={appearance.eyeStyle}
+            onSelect={(value) => set("eyeStyle", value)}
+          />
+          <OptionRow
+            label="Nose Style"
+            options={NOSE_STYLE_OPTIONS}
+            selected={appearance.noseStyle}
+            onSelect={(value) => set("noseStyle", value)}
+          />
+          <OptionRow
+            label="Mouth Style"
+            options={MOUTH_STYLE_OPTIONS}
+            selected={appearance.mouthStyle}
+            onSelect={(value) => set("mouthStyle", value)}
+          />
+        </div>
       </div>
     </WindowFrame>
   );

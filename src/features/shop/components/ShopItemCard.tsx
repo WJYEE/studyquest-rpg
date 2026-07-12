@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 
+import { AssetIcon } from "../../../components/AssetIcon";
 import { Button } from "../../../components/Button";
 import { InventorySlot } from "../../../components/rpg/InventorySlot";
-import { ICON_BY_ITEM_ID } from "../../../lib/itemIcons";
+import { ICON_ASSET_BY_ITEM_ID, ICON_BY_ITEM_ID } from "../../../lib/itemIcons";
 import {
   evaluatePurchase,
   purchaseIneligibleMessage,
@@ -63,9 +64,30 @@ export function ShopItemCard({ item }: ShopItemCardProps) {
 
   return (
     <InventorySlot
-      icon={ICON_BY_ITEM_ID[item.id] ?? "🎁"}
+      icon={
+        ICON_ASSET_BY_ITEM_ID[item.id] ? (
+          <AssetIcon
+            src={ICON_ASSET_BY_ITEM_ID[item.id]}
+            fallback={ICON_BY_ITEM_ID[item.id] ?? "🎁"}
+            alt=""
+            size={34}
+          />
+        ) : (
+          ICON_BY_ITEM_ID[item.id] ?? "🎁"
+        )
+      }
       title={item.name}
-      subtitle={`${item.currency === "coin" ? "🪙" : "💎"} ${item.price} · ${item.type}`}
+      subtitle={
+        <span className="inline-flex items-center gap-1">
+          <AssetIcon
+            src={`/assets/currency/${item.currency}.png`}
+            fallback={item.currency === "coin" ? "🪙" : "💎"}
+            alt=""
+            size={14}
+          />
+          {item.price} · {item.type}
+        </span>
+      }
       equipped={isEquipped}
       error={
         error && (

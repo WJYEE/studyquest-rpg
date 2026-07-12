@@ -1,11 +1,12 @@
 import type { CSSProperties, ReactNode } from "react";
 
-export type RpgScene = "town" | "room" | "library" | "field";
+export type RpgScene = "town" | "room" | "library" | "field" | "quiet";
 
 interface SceneStyle {
   gradient: string;
-  groundColor: string;
-  groundDark: string;
+  /** Omitted for scenes that shouldn't render a ground strip (e.g. `quiet`). */
+  groundColor?: string;
+  groundDark?: string;
 }
 
 const SCENE_STYLES: Record<RpgScene, SceneStyle> = {
@@ -28,6 +29,13 @@ const SCENE_STYLES: Record<RpgScene, SceneStyle> = {
     gradient: "linear-gradient(180deg, #bfe3a0 0%, #7cb768 100%)",
     groundColor: "#5c9450",
     groundDark: "#4a7d3f",
+  },
+  // Quiet flat-cream backdrop for "plain workspace" screens (Home, Subjects,
+  // Dashboard, Shop, Inventory, Character Customization) per
+  // docs/02_design/screen-specs.md §4 — no silhouette decor, no ground
+  // strip, just the shared `.pixel-texture` grain everything already gets.
+  quiet: {
+    gradient: "linear-gradient(180deg, #fdf6e3 0%, #f8ecd2 100%)",
   },
 };
 
@@ -149,6 +157,7 @@ const SCENE_DECOR: Record<RpgScene, () => ReactNode> = {
   town: TownDecor,
   library: LibraryDecor,
   field: FieldDecor,
+  quiet: () => null,
 };
 
 interface RpgBackgroundProps {
@@ -157,13 +166,15 @@ interface RpgBackgroundProps {
 }
 
 /**
- * Full-bleed scene backdrop behind a page's content: a gradient sky, a
- * scene-appropriate CSS silhouette (bookshelf+window for `room`, a rooftop
- * skyline for `town`, stacked bookshelves for `library`, rolling hills +
- * trees + drifting clouds for `field`), a low-opacity dither texture, and a
- * plank/cobble ground strip. CSS-only — no image files — per v1.1/v1.2's
- * "no external assets yet" constraint; see public/assets/backgrounds for
- * the future swap-in point.
+ * Full-bleed scene backdrop behind a page's content: a gradient sky, an
+ * optional scene-appropriate CSS silhouette (bookshelf+window for `room`, a
+ * rooftop skyline for `town`, stacked bookshelves for `library`, rolling
+ * hills + trees + drifting clouds for `field`), a low-opacity dither
+ * texture, and an optional plank/cobble ground strip. `quiet` is the flat
+ * cream backdrop for plain-workspace screens — no silhouette, no ground
+ * strip, texture only (docs/02_design/screen-specs.md §4). CSS-only — no
+ * image files — per v1.1/v1.2's "no external assets yet" constraint; see
+ * public/assets/backgrounds for the future swap-in point.
  */
 export function RpgBackground({ scene, children }: RpgBackgroundProps) {
   const style = SCENE_STYLES[scene];
@@ -171,17 +182,19 @@ export function RpgBackground({ scene, children }: RpgBackgroundProps) {
 
   return (
     <div
-      className="pixel-texture relative min-h-[calc(100vh-8rem)] w-full overflow-hidden"
+      className="pixel-texture relative min-h-[calc(100vh-7.5rem)] w-full overflow-hidden"
       style={{ background: style.gradient }}
     >
       <Decor />
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-3"
-        style={{
-          backgroundImage: `repeating-linear-gradient(90deg, ${style.groundColor} 0px, ${style.groundColor} 18px, ${style.groundDark} 18px, ${style.groundDark} 20px)`,
-        }}
-        aria-hidden="true"
-      />
+      {style.groundColor && style.groundDark && (
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-3"
+          style={{
+            backgroundImage: `repeating-linear-gradient(90deg, ${style.groundColor} 0px, ${style.groundColor} 18px, ${style.groundDark} 18px, ${style.groundDark} 20px)`,
+          }}
+          aria-hidden="true"
+        />
+      )}
       <div className="relative z-10">{children}</div>
     </div>
   );

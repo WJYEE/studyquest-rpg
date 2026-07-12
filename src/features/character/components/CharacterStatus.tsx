@@ -1,15 +1,16 @@
 "use client";
 
+import { AssetIcon } from "../../../components/AssetIcon";
 import { PageTitle } from "../../../components/rpg/PageTitle";
 import { WindowFrame } from "../../../components/rpg/WindowFrame";
 import { StatusWindow } from "../../../components/rpg/StatusWindow";
 import { getItemById } from "../../../lib/itemCatalog";
-import { ICON_BY_ITEM_ID } from "../../../lib/itemIcons";
+import { ICON_ASSET_BY_ITEM_ID, ICON_BY_ITEM_ID } from "../../../lib/itemIcons";
 import { useAppStore } from "../../../store/useAppStore";
 import type { ItemSlot } from "../../../types/item";
 import { useCharacterAnimationState } from "../hooks/useCharacterAnimationState";
-import { CharacterSprite, tierForLevel } from "./CharacterSprite";
 import { CurrencyDisplay } from "./CurrencyDisplay";
+import { DollSprite } from "./DollSprite";
 import { LevelProgress } from "./LevelProgress";
 
 const EQUIPMENT_SLOTS: { slot: ItemSlot; label: string }[] = [
@@ -29,13 +30,11 @@ export function CharacterStatus() {
       <PageTitle>Character</PageTitle>
       <StatusWindow
         portrait={
-          <CharacterSprite
-            tier={tierForLevel(user.level)}
+          <DollSprite
             appearance={appearance}
-            hasHat={Boolean(equippedItemIds.hat)}
-            hasOutfit={Boolean(equippedItemIds.outfit)}
-            hasAccessory={Boolean(equippedItemIds.accessory)}
+            height={230}
             animState={animState}
+            fallbackLevel={user.level}
           />
         }
       >
@@ -52,7 +51,20 @@ export function CharacterStatus() {
                 title={item?.name ?? `No ${label.toLowerCase()} equipped`}
               >
                 <span className="text-lg" aria-hidden="true">
-                  {item ? ICON_BY_ITEM_ID[item.id] ?? "🎁" : "—"}
+                  {item ? (
+                    ICON_ASSET_BY_ITEM_ID[item.id] ? (
+                      <AssetIcon
+                        src={ICON_ASSET_BY_ITEM_ID[item.id]}
+                        fallback={ICON_BY_ITEM_ID[item.id] ?? "🎁"}
+                        alt=""
+                        size={24}
+                      />
+                    ) : (
+                      ICON_BY_ITEM_ID[item.id] ?? "🎁"
+                    )
+                  ) : (
+                    "—"
+                  )}
                 </span>
                 <span className="text-[10px] uppercase tracking-wide text-rpg-ink-soft">
                   {label}

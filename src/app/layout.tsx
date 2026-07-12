@@ -14,7 +14,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-/** Pixel game-UI display font — titles, nav, buttons only (see globals.css `font-pixel`). */
+/**
+ * Pixel display font — reserved for page titles and badge/ribbon chips
+ * only (docs/02_design/art-direction.md §6). Not body copy, buttons, or
+ * nav; see globals.css's `font-pixel` mapping.
+ */
 const silkscreen = Silkscreen({
   variable: "--font-pixel",
   weight: ["400", "700"],
@@ -36,7 +40,8 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col pb-16">
+        {/* pb-16 reserves space for RpgHud's fixed bottom nav bar so it never covers page content. */}
         <AppHydrator />
         <RpgHud />
         {children}

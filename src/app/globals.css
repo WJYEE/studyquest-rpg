@@ -1,26 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  /* Cream fallback (not white) — matches --rpg-parchment so the body's
+     own background never mismatches a page's cream surface, e.g. in the
+     bottom-nav clearance strip reserved in layout.tsx. */
+  --background: #fdf6e3;
   --foreground: #171717;
 
-  /* RPG design tokens (docs/02_design/ui_design.md) */
-  --rpg-ink: #262019;
-  --rpg-ink-soft: #8a7a5c;
+  /*
+   * Cozy-study-app design tokens (docs/02_design/art-direction.md §4).
+   * Warm, low-saturation palette: cream surfaces, forest-green primary,
+   * pastel accents. Ink is a warm dark brown (not near-black) reserved for
+   * text/thin-border legibility, not as the loudest thing on screen. Every
+   * value below targets WCAG AA (>=4.5:1) where used as text-on-cream.
+   */
+  --rpg-ink: #4a3728;
+  --rpg-ink-soft: #82683f;
   --rpg-parchment: #fdf6e3;
   --rpg-parchment-dark: #f3e4bd;
-  --rpg-gold: #b8860b;
-  --rpg-diamond: #0e7c86;
-
-  /* Cozy-pixel-RPG art-direction pass: replaces stray Tailwind grays/blues/
-     reds/greens across the app so every color on screen is an intentional
-     game-palette choice. */
-  --rpg-xp: #7cb342;
-  --rpg-wood: #8a5a34;
-  --rpg-forest: #3f6b3a;
-  --rpg-sky: #6fa8c9;
-  --rpg-danger: #a83232;
-  --rpg-success: #4c7a3d;
+  --rpg-gold: #d9a441;
+  --rpg-diamond: #a893cc;
+  --rpg-xp: #47704c;
+  --rpg-wood: #a9784f;
+  --rpg-forest: #47704c;
+  --rpg-sky: #9cc9e0;
+  --rpg-danger: #a8503a;
+  --rpg-success: #8ecfa8;
 }
 
 @theme inline {
@@ -79,6 +84,24 @@ body {
       transparent 1px,
       transparent 4px
     );
+}
+
+/**
+ * Blocky pixel-step seam — a stand-in for a plain 1px rule wherever a more
+ * distinctly "pixel art" divider is wanted (see docs/02_design/screen-specs.md
+ * §3's shared shell). Purely decorative, safe anywhere a horizontal rule
+ * would otherwise go.
+ */
+.pixel-step-divider {
+  height: 3px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--rpg-ink-soft) 0px,
+    var(--rpg-ink-soft) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  opacity: 0.5;
 }
 
 /* --- Character sprite animation states ------------------------------- */

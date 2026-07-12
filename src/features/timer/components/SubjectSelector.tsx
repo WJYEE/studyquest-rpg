@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { buttonClassName } from "../../../components/Button";
 import { selectClassName } from "../../../components/Input";
-import { WindowFrame } from "../../../components/rpg/WindowFrame";
 import { selectSelectableSubjects, useAppStore } from "../../../store/useAppStore";
 
 interface SubjectSelectorProps {
@@ -23,12 +22,12 @@ export function SubjectSelector({
 
   if (selectableSubjects.length === 0) {
     return (
-      <WindowFrame variant="window" className="flex flex-col items-start gap-2 px-3 py-2 text-sm text-rpg-ink-soft">
+      <div className="flex flex-col items-start gap-2 text-sm text-rpg-ink-soft">
         <p>No subjects available yet.</p>
         <Link href="/subjects" className={buttonClassName("secondary", "sm")}>
           Add one on the Subjects page
         </Link>
-      </WindowFrame>
+      </div>
     );
   }
 

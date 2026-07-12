@@ -26,7 +26,7 @@ export function InventorySlot({
     <WindowFrame
       as="li"
       variant="slot"
-      className="relative flex flex-col items-center gap-1 px-3 py-3 text-center"
+      className="relative flex flex-col items-center gap-1 !bg-rpg-parchment px-3 py-3 text-center"
     >
       {equipped && (
         <span
@@ -37,7 +37,7 @@ export function InventorySlot({
         </span>
       )}
       <div
-        className="flex h-12 w-12 items-center justify-center border-2 border-rpg-ink-soft bg-rpg-parchment text-2xl"
+        className="flex h-12 w-12 items-center justify-center rounded-xl border border-rpg-ink-soft/50 bg-rpg-parchment-dark/30 text-2xl"
         aria-hidden="true"
       >
         {icon}

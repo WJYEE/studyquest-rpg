@@ -6,7 +6,7 @@ import { CharacterStatus } from "../../features/character/components/CharacterSt
 
 export default function CharacterPage() {
   return (
-    <RpgBackground scene="room">
+    <RpgBackground scene="quiet">
       <main className="mx-auto flex w-full max-w-lg flex-col gap-4 px-4 py-8">
         <CharacterStatus />
         <Link

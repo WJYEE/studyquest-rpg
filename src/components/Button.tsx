@@ -5,11 +5,11 @@ export type ButtonSize = "md" | "sm";
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "border-rpg-ink bg-rpg-gold text-rpg-ink shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),3px_3px_0_0_var(--rpg-ink)]",
+    "border border-transparent bg-rpg-forest text-rpg-parchment shadow-[0_4px_10px_-2px_rgba(74,55,40,0.3)]",
   secondary:
-    "border-rpg-ink bg-rpg-parchment-dark text-rpg-ink shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),3px_3px_0_0_var(--rpg-ink)]",
+    "border border-rpg-ink-soft/60 bg-rpg-parchment text-rpg-ink shadow-[0_2px_6px_-2px_rgba(74,55,40,0.15)]",
   success:
-    "border-rpg-ink bg-rpg-success text-rpg-parchment shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),3px_3px_0_0_var(--rpg-ink)]",
+    "border border-transparent bg-rpg-success text-rpg-ink shadow-[0_4px_10px_-2px_rgba(74,55,40,0.25)]",
   // Deliberately no fill/shadow — keeps destructive actions visually
   // quieter than filled buttons.
   danger: "border-transparent text-rpg-danger shadow-none",
@@ -25,9 +25,13 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
  * elements that need to look like a button (e.g. a Next.js <Link> used as
  * a CTA) reuse the exact same styling instead of duplicating it.
  *
- * Pixel interaction motif: an offset ink shadow that collapses to 0 and
- * nudges the button down-right on press, mimicking a physical button being
- * pushed in. `danger` opts out (see VARIANT_CLASSES) to stay lightweight.
+ * Cozy interaction motif (docs/02_design/art-direction.md §8): a soft
+ * diffuse shadow that lifts slightly on hover and settles with a gentle
+ * scale-down on press — not the old hard pixel-shove offset shadow.
+ * `danger` opts out of the shadow/fill (see VARIANT_CLASSES) to stay
+ * lightweight. Labels use the default sans body font, not the pixel
+ * display font, per the typography direction (pixel font is reserved for
+ * page titles and badge/ribbon chips).
  */
 export function buttonClassName(
   variant: ButtonVariant = "primary",
@@ -35,7 +39,7 @@ export function buttonClassName(
   className?: string
 ): string {
   return [
-    "inline-flex items-center justify-center border-2 font-pixel tracking-wide transition-transform duration-100 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:opacity-40",
+    "inline-flex items-center justify-center rounded-full font-medium transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rpg-forest disabled:opacity-40 disabled:hover:translate-y-0",
     SIZE_CLASSES[size],
     VARIANT_CLASSES[variant],
     className,

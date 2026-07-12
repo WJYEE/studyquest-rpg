@@ -3,7 +3,7 @@ import { ShopManager } from "../../features/shop/components/ShopManager";
 
 export default function ShopPage() {
   return (
-    <RpgBackground scene="town">
+    <RpgBackground scene="quiet">
       <main className="mx-auto w-full max-w-lg px-4 py-8">
         <ShopManager />
       </main>
