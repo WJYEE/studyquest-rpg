@@ -1,12 +1,12 @@
 /**
- * Pixel-square ink-bordered field styling, mirroring `Button.tsx`'s
- * `buttonClassName()` pattern — replaces native `<input>`/`<select>`
- * elements' default `rounded border-gray-300` SaaS-form look with the
- * ink/parchment game-UI language used everywhere else.
+ * Cozy-panel field styling (docs/02_design/art-direction.md §8), mirroring
+ * `Button.tsx`'s `buttonClassName()` pattern — rounded corners, a thin
+ * warm border, and a soft focus ring instead of the old sharp ink-square
+ * field / hard focus-border swap.
  */
 export function inputClassName(className?: string): string {
   return [
-    "border-2 border-rpg-ink bg-rpg-parchment px-2 py-1.5 text-sm text-rpg-ink placeholder:text-rpg-ink-soft focus:outline-none focus:border-rpg-gold disabled:opacity-60",
+    "rounded-xl border border-rpg-ink-soft/60 bg-rpg-parchment px-3 py-2 text-sm text-rpg-ink placeholder:text-rpg-ink-soft transition-colors focus:outline-none focus-visible:border-rpg-forest focus-visible:ring-2 focus-visible:ring-rpg-forest/30 disabled:opacity-60",
     className,
   ]
     .filter(Boolean)

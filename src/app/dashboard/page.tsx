@@ -3,7 +3,7 @@ import { DashboardManager } from "../../features/dashboard/components/DashboardM
 
 export default function DashboardPage() {
   return (
-    <RpgBackground scene="town">
+    <RpgBackground scene="quiet">
       <main className="mx-auto w-full max-w-lg px-4 py-8">
         <DashboardManager />
       </main>

@@ -10,7 +10,7 @@ export function SubjectBreakdown() {
 
   return (
     <WindowFrame variant="slot" className="flex flex-col gap-2 px-4 py-3">
-      <h2 className="font-pixel text-[11px] tracking-wide text-rpg-ink">By Subject</h2>
+      <h2 className="text-sm font-semibold text-rpg-ink">By Subject</h2>
       {breakdown.length === 0 ? (
         <p className="text-sm text-rpg-ink-soft">No study time recorded yet.</p>
       ) : (

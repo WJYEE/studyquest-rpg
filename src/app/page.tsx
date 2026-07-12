@@ -4,64 +4,69 @@ import Link from "next/link";
 
 import { buttonClassName } from "../components/Button";
 import { RpgBackground } from "../components/rpg/RpgBackground";
-import { WindowFrame } from "../components/rpg/WindowFrame";
-import { CharacterSprite, tierForLevel } from "../features/character/components/CharacterSprite";
+import { StudyVignette } from "../components/rpg/StudyVignette";
+import { calculateCurrentStreak, calculateTodayTotalMinutes } from "../lib/dashboardStats";
 import { useAppStore } from "../store/useAppStore";
 
-const FEATURE_HIGHLIGHTS = [
-  { icon: "🕹️", label: "Timed study sessions" },
-  { icon: "🧙", label: "XP & leveling" },
-  { icon: "🛒", label: "Coin & diamond shop" },
-  { icon: "📊", label: "Progress dashboard" },
-];
-
+/**
+ * Home's job is orientation + one action, not branding (the shell's top
+ * bar already carries the wordmark on every route) or a stat dashboard.
+ * The hero is a built pixel scene (`StudyVignette`), not a text panel —
+ * see docs/02_design/screen-specs.md's diorama concept, brought forward to
+ * Home per explicit direction. "Today"/"Streak" get bespoke, differently-
+ * shaped zones here rather than reusing the Dashboard's identical stat
+ * chips, so Home doesn't just look like a smaller copy of Dashboard.
+ */
 export default function HomePage() {
-  const user = useAppStore((state) => state.user);
-  const equippedItemIds = useAppStore((state) => state.equippedItemIds);
-  const appearance = useAppStore((state) => state.appearance);
+  const sessions = useAppStore((state) => state.sessions);
+  const todayMinutes = calculateTodayTotalMinutes(sessions);
+  const streak = calculateCurrentStreak(sessions);
 
   return (
-    <RpgBackground scene="town">
-      <main className="mx-auto w-full max-w-lg px-4 py-8">
-        <WindowFrame
-          as="section"
-          variant="window"
-          className="flex flex-col items-center gap-4 px-6 py-8 text-center"
-        >
-          <div className="relative flex flex-col items-center">
-            <CharacterSprite
-              tier={tierForLevel(user.level)}
-              appearance={appearance}
-              hasHat={Boolean(equippedItemIds.hat)}
-              hasOutfit={Boolean(equippedItemIds.outfit)}
-              hasAccessory={Boolean(equippedItemIds.accessory)}
-            />
-            <div className="-mt-2 h-2 w-10 rounded-full bg-rpg-ink opacity-20" aria-hidden="true" />
-          </div>
-          <p className="font-pixel text-[10px] tracking-wide text-rpg-ink">Lv.{user.level}</p>
-          <div>
-            <h1 className="font-pixel text-xl tracking-wide text-rpg-ink">StudyQuest</h1>
-            <p className="mt-2 text-sm text-rpg-ink-soft">
-              Study time becomes character growth.
+    <RpgBackground scene="quiet">
+      <main className="mx-auto w-full max-w-lg px-4 pt-6 pb-8">
+        <h1 className="sr-only">StudyQuest Home</h1>
+        <p className="mb-2 text-center text-xs font-semibold tracking-wide text-rpg-ink-soft uppercase">
+          Welcome back
+        </p>
+
+        <div className="relative">
+          <StudyVignette />
+          <Link
+            href="/timer"
+            className={buttonClassName(
+              "primary",
+              "md",
+              "absolute -bottom-5 left-1/2 -translate-x-1/2 shadow-lg"
+            )}
+          >
+            ▶ Start Studying
+          </Link>
+        </div>
+
+        <div className="mt-9 flex gap-3">
+          <div className="flex-[2] rounded-xl border border-rpg-ink-soft/50 bg-rpg-parchment-dark/20 p-3">
+            <p className="text-[11px] font-medium tracking-wide text-rpg-ink-soft uppercase">Today</p>
+            <p className="mt-1 text-2xl font-bold text-rpg-ink tabular-nums">
+              {todayMinutes}
+              <span className="ml-1 text-xs font-normal text-rpg-ink-soft">min</span>
             </p>
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Link href="/timer" className={buttonClassName("primary", "md")}>
-              ▶ Begin Quest
-            </Link>
-            <Link href="/subjects" className={buttonClassName("secondary", "md")}>
-              Manage Subjects
-            </Link>
+          <div className="flex-1 rounded-xl border border-rpg-ink-soft/50 bg-rpg-parchment-dark/20 p-3 text-center">
+            <p className="text-[11px] font-medium tracking-wide text-rpg-ink-soft uppercase">Streak</p>
+            <p className="mt-1 text-2xl font-bold text-rpg-ink tabular-nums">🔥{streak}</p>
           </div>
-        </WindowFrame>
+        </div>
 
-        <ul className="mt-6 grid grid-cols-2 gap-3 text-sm text-rpg-ink-soft">
-          {FEATURE_HIGHLIGHTS.map((feature) => (
-            <WindowFrame as="li" variant="slot" key={feature.label} className="px-3 py-2">
-              {feature.icon} {feature.label}
-            </WindowFrame>
-          ))}
-        </ul>
+        <Link
+          href="/subjects"
+          className="mt-3 flex items-center justify-between rounded-xl border border-rpg-ink-soft/50 bg-rpg-parchment px-4 py-3 text-sm font-medium text-rpg-ink transition-colors hover:bg-rpg-parchment-dark/30"
+        >
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true">📚</span> Manage Subjects
+          </span>
+          <span aria-hidden="true">→</span>
+        </Link>
       </main>
     </RpgBackground>
   );
